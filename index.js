@@ -5,6 +5,7 @@ let blobX = 0;
 let blobY = 0;
 
 let speed = 250; //this would be the interval we request the animation feature in turn allowing us to speed up in later levels
+//by decreasing this we actually increase speed , they have a negative relation
 
 let direction = "";
 
