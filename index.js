@@ -1,13 +1,21 @@
 const blob = document.getElementById("blob");
+const food = document.getElementById("food");
+const pointsElement = document.getElementById("score");
 
 let move = false;
-let blobX = 0;
-let blobY = 0;
 
-let speed = 250; //this would be the interval we request the animation feature in turn allowing us to speed up in later levels
+let blobX = Math.floor(Math.random() * 15) * 25;
+let blobY = Math.floor(Math.random() * 23) * 25;
+
+let foodX = Math.floor(Math.random() * 15) * 25;
+let foodY = Math.floor(Math.random() * 23) * 25;
+
+let speed = 200; //this would be the interval we request the animation feature in turn allowing us to speed up in later levels
 //by decreasing this we actually increase speed , they have a negative relation
 
 let direction = "";
+
+let score = 0;
 
 //here we have the declaration of direction and assigning to it we have to do this before we request the animation
 //since we have to know what to animate
@@ -15,7 +23,6 @@ document.addEventListener("keydown", (event) => {
   switch (event.code) {
     case "Space":
       move = !move;
-      console.log("space has been pressed");
       break;
 
     case "KeyW":
@@ -40,7 +47,6 @@ function moveBlob() {
   if (move) {
     switch (direction) {
       case "w":
-        console.log("w");
         blobY -= 25;
         break;
 
@@ -60,14 +66,26 @@ function moveBlob() {
     //constricting the position of the snake within bounds
     blobX = Math.max(0, Math.min(blobX, 375));
     blobY = Math.max(0, Math.min(blobY, 575));
-
-    blob.style.transform = `translate(${blobX}px, ${blobY}px)`;
   }
+
+  if (blobX == foodX && blobY == foodY) {
+    eatfood();
+  }
+
+  blob.style.transform = `translate(${blobX}px, ${blobY}px)`;
+  food.style.transform = `translate(${foodX}px, ${foodY}px)`;
 
   //to get the retro feel and for better implementation we request frames at a certain lower speed
   setTimeout(() => {
     requestAnimationFrame(moveBlob);
   }, speed);
+}
+
+function eatfood() {
+  score++;
+  foodX = Math.floor(Math.random() * 15) * 25;
+  foodY = Math.floor(Math.random() * 23) * 25;
+  pointsElement.innerHTML = "Score: " + score;
 }
 
 //initial call so our program animates when we initialize

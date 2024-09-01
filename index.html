@@ -4,10 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
     <title>Game</title>
   </head>
   <body>
-    <div class="game-container"><div class="blob ball" id="blob"></div></div>
+    <h3 class="score" id="score">Score: 0</h3>
+    <div class="game-container">
+      <div class="blob ball" id="blob"></div>
+      <div id="food"></div>
+    </div>
   </body>
 </html>
 <script src="index.js"></script>

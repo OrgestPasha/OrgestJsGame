@@ -7,6 +7,10 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: bold;
 }
 
 .game-container {
@@ -20,13 +24,25 @@ body {
     ),
     linear-gradient(rgba(0, 0, 0, 0.2) 0.5px, transparent 0.5px);
   background-size: 25px 25px; /* Size of each grid cell */
-  border: 5px solid gray;
-  border-radius: 5px;
+  border: 2px solid gray;
 }
 
 .ball {
   width: 25px;
   aspect-ratio: 1/1;
-  transition: transform 0.1s ease;
+  transition: transform 0.05s ease;
   background-color: rgb(22, 81, 0);
+  position: absolute;
+}
+
+#food {
+  width: 25px;
+  aspect-ratio: 1/1;
+  background-color: rgb(91, 3, 3);
+}
+
+.score {
+  position: absolute;
+  color: white;
+  transform: translate(-290px, -290px);
 }
