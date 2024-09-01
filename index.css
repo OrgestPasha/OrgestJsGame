@@ -41,8 +41,12 @@ body {
   background-color: rgb(91, 3, 3);
 }
 
-.score {
+.text-container {
   position: absolute;
   color: white;
-  transform: translate(-290px, -290px);
+  transform: translate(-290px, -275spx);
+}
+
+.instructions-container > p {
+  margin: 0;
 }

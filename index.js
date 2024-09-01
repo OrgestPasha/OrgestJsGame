@@ -4,11 +4,11 @@ const pointsElement = document.getElementById("score");
 
 let move = false;
 
-let blobX = Math.floor(Math.random() * 15) * 25;
-let blobY = Math.floor(Math.random() * 23) * 25;
+let blobX;
+let blobY;
 
-let foodX = Math.floor(Math.random() * 15) * 25;
-let foodY = Math.floor(Math.random() * 23) * 25;
+let foodX;
+let foodY;
 
 let speed = 200; //this would be the interval we request the animation feature in turn allowing us to speed up in later levels
 //by decreasing this we actually increase speed , they have a negative relation
@@ -17,8 +17,9 @@ let direction = "";
 
 let score = 0;
 
-//here we have the declaration of direction and assigning to it we have to do this before we request the animation
-//since we have to know what to animate
+resetGame();
+
+//here would be all the possible inputs a user can put
 document.addEventListener("keydown", (event) => {
   switch (event.code) {
     case "Space":
@@ -27,22 +28,29 @@ document.addEventListener("keydown", (event) => {
 
     case "KeyW":
       direction = "w";
+      move = true;
       break;
 
     case "KeyA":
       direction = "a";
+      move = true;
       break;
 
     case "KeyS":
       direction = "s";
+      move = true;
       break;
 
     case "KeyD":
       direction = "d";
+      move = true;
+      break;
+    case "KeyR":
+      resetGame();
   }
 });
 
-//actual animation for movement
+//here we write the things that should be checked or updated each frame
 function moveBlob() {
   if (move) {
     switch (direction) {
@@ -81,10 +89,24 @@ function moveBlob() {
   }, speed);
 }
 
+//functions of diferent interactions
+
 function eatfood() {
   score++;
   foodX = Math.floor(Math.random() * 15) * 25;
   foodY = Math.floor(Math.random() * 23) * 25;
+  pointsElement.innerHTML = "Score: " + score;
+}
+
+function resetGame() {
+  blobX = Math.floor(Math.random() * 15) * 25;
+  blobY = Math.floor(Math.random() * 23) * 25;
+
+  foodX = Math.floor(Math.random() * 15) * 25;
+  foodY = Math.floor(Math.random() * 23) * 25;
+
+  move = false;
+  score = 0;
   pointsElement.innerHTML = "Score: " + score;
 }
 
