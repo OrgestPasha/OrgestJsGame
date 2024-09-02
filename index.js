@@ -1,114 +1,180 @@
-const blob = document.getElementById("blob");
+const gameContainer = document.querySelector(".game-container");
 const food = document.getElementById("food");
 const pointsElement = document.getElementById("score");
+const gameOver = document.getElementById("gameOverText");
 
+let snake = [createSegment()]; // Initialize snake with one segment
 let move = false;
-
-let blobX;
-let blobY;
-
-let foodX;
-let foodY;
-
-let speed = 200; //this would be the interval we request the animation feature in turn allowing us to speed up in later levels
-//by decreasing this we actually increase speed , they have a negative relation
-
+let previousDirection = "";
 let direction = "";
-
 let score = 0;
+let speed = 200;
+let isGameOver = false;
 
 resetGame();
 
-//here would be all the possible inputs a user can put
 document.addEventListener("keydown", (event) => {
-  switch (event.code) {
-    case "Space":
-      move = !move;
-      break;
+  let newDirection = "";
 
+  if (event.code === "KeyR") {
+    resetGame(); // Reset the game even if the game is over
+    return; // Stop further processing to avoid direction change after reset
+  }
+
+  if (isGameOver) return;
+
+  switch (event.code) {
     case "KeyW":
-      direction = "w";
-      move = true;
+      newDirection = "w";
       break;
 
     case "KeyA":
-      direction = "a";
-      move = true;
+      newDirection = "a";
       break;
 
     case "KeyS":
-      direction = "s";
-      move = true;
+      newDirection = "s";
       break;
 
     case "KeyD":
-      direction = "d";
-      move = true;
+      newDirection = "d";
       break;
-    case "KeyR":
-      resetGame();
   }
+
+  if (isGameOver) return;
+
+  if (
+    (newDirection === "w" && previousDirection === "s") ||
+    (newDirection === "a" && previousDirection === "d") ||
+    (newDirection === "s" && previousDirection === "w") ||
+    (newDirection === "d" && previousDirection === "a")
+  ) {
+    console.log("Invalid direction change attempted!");
+    return;
+  }
+
+  previousDirection = newDirection; // Set previous direction to current direction
+  direction = newDirection; // Set current direction to the new direction
+  move = true;
 });
 
-//here we write the things that should be checked or updated each frame
-function moveBlob() {
+function moveSnake() {
   if (move) {
+    // Move each segment to the position of the previous one
+    for (let i = snake.length - 1; i > 0; i--) {
+      snake[i].style.left = snake[i - 1].style.left;
+      snake[i].style.top = snake[i - 1].style.top;
+    }
+
+    // Move the head of the snake based on the direction
+    let head = snake[0];
+    let headX = parseInt(head.style.left);
+    let headY = parseInt(head.style.top);
+
     switch (direction) {
       case "w":
-        blobY -= 25;
+        headY -= 25;
         break;
-
       case "a":
-        blobX -= 25;
+        headX -= 25;
         break;
-
       case "s":
-        blobY += 25;
+        headY += 25;
         break;
-
       case "d":
-        blobX += 25;
+        headX += 25;
         break;
     }
 
-    //constricting the position of the snake within bounds
-    blobX = Math.max(0, Math.min(blobX, 375));
-    blobY = Math.max(0, Math.min(blobY, 575));
+    // Constrain the position within bound
+    if (headX >= 400 || headX < 0 || headY >= 400 || headY < 0) {
+      gameOverFunction();
+    }
+
+    headX = Math.max(0, Math.min(headX, 375));
+    headY = Math.max(0, Math.min(headY, 375));
+
+    for (let i = 1; i < snake.length; i++) {
+      let segmentX = parseInt(snake[i].style.left);
+      let segmentY = parseInt(snake[i].style.top);
+      if (headX === segmentX && headY === segmentY) {
+        gameOverFunction();
+        // Exit the function to prevent further movement
+      }
+    }
+
+    head.style.left = `${headX}px`;
+    head.style.top = `${headY}px`;
+
+    // Check if the snake has eaten the food
+    if (headX == foodX && headY == foodY) {
+      eatFood();
+    }
   }
 
-  if (blobX == foodX && blobY == foodY) {
-    eatfood();
-  }
-
-  blob.style.transform = `translate(${blobX}px, ${blobY}px)`;
   food.style.transform = `translate(${foodX}px, ${foodY}px)`;
 
-  //to get the retro feel and for better implementation we request frames at a certain lower speed
   setTimeout(() => {
-    requestAnimationFrame(moveBlob);
+    requestAnimationFrame(moveSnake);
   }, speed);
 }
 
-//functions of diferent interactions
-
-function eatfood() {
+function eatFood() {
   score++;
+  if (score == 255) {
+    winFunction();
+  }
   foodX = Math.floor(Math.random() * 15) * 25;
-  foodY = Math.floor(Math.random() * 23) * 25;
+  foodY = Math.floor(Math.random() * 15) * 25;
   pointsElement.innerHTML = "Score: " + score;
+
+  // Elongate the snake by adding a new segment
+  let newSegment = createSegment();
+  let lastSegment = snake[snake.length - 1];
+  newSegment.style.left = lastSegment.style.left;
+  newSegment.style.top = lastSegment.style.top;
+  snake.push(newSegment);
+  gameContainer.appendChild(newSegment);
+}
+
+function createSegment() {
+  let segment = document.createElement("div");
+  segment.classList.add("blob", "ball");
+  segment.style.left = "0px";
+  segment.style.top = "0px";
+  gameContainer.appendChild(segment);
+  return segment;
 }
 
 function resetGame() {
-  blobX = Math.floor(Math.random() * 15) * 25;
-  blobY = Math.floor(Math.random() * 23) * 25;
+  // Remove all segments from the game area
+  snake.forEach((segment) => gameContainer.removeChild(segment));
+  snake = [createSegment()]; // Reset snake with one segment
 
   foodX = Math.floor(Math.random() * 15) * 25;
-  foodY = Math.floor(Math.random() * 23) * 25;
+  foodY = Math.floor(Math.random() * 15) * 25;
+
+  let initialX = Math.floor(Math.random() * 15) * 25;
+  let initialY = Math.floor(Math.random() * 15) * 25;
+  snake[0].style.left = `${initialX}px`;
+  snake[0].style.top = `${initialY}px`;
 
   move = false;
   score = 0;
   pointsElement.innerHTML = "Score: " + score;
+  gameOver.innerHTML = "";
+  speed = 200;
+  isGameOver = false;
 }
 
-//initial call so our program animates when we initialize
-moveBlob();
+function gameOverFunction() {
+  gameOver.innerHTML = "Game Over";
+  isGameOver = true;
+}
+
+function winFunction() {
+  gameOver.innerHTML = "You win";
+  isGameOver = true;
+}
+
+moveSnake();

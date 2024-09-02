@@ -15,7 +15,7 @@ body {
 
 .game-container {
   width: 400px;
-  height: 600px;
+  height: 400px;
   background-color: rgb(40, 40, 40);
   background-image: linear-gradient(
       90deg,
@@ -25,6 +25,7 @@ body {
     linear-gradient(rgba(0, 0, 0, 0.2) 0.5px, transparent 0.5px);
   background-size: 25px 25px; /* Size of each grid cell */
   border: 2px solid gray;
+  position: relative;
 }
 
 .ball {
@@ -44,9 +45,25 @@ body {
 .text-container {
   position: absolute;
   color: white;
-  transform: translate(-290px, -275spx);
+  width: 400px;
+  transform: translateY(-225px);
+  display: flex;
+  justify-content: space-between;
+}
+
+.instructions-container {
+  display: flex;
+  align-items: center;
 }
 
 .instructions-container > p {
-  margin: 0;
+  margin-left: 10px;
+  font-weight: 200;
+}
+
+h1 {
+  color: white;
+  position: absolute;
+  font-weight: bolder;
+  font-size: 60px;
 }
