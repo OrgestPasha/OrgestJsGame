@@ -59,6 +59,8 @@ document.addEventListener("keydown", (event) => {
 });
 
 function moveSnake() {
+  let head = snake[0];
+  head.classList.add("head");
   if (move) {
     // Move each segment to the position of the previous one
     for (let i = snake.length - 1; i > 0; i--) {
@@ -68,6 +70,7 @@ function moveSnake() {
 
     // Move the head of the snake based on the direction
     let head = snake[0];
+    head.classList.add("head");
     let headX = parseInt(head.style.left);
     let headY = parseInt(head.style.top);
 
@@ -139,7 +142,7 @@ function eatFood() {
 
 function createSegment() {
   let segment = document.createElement("div");
-  segment.classList.add("blob", "ball");
+  segment.classList.add("ball");
   segment.style.left = "0px";
   segment.style.top = "0px";
   gameContainer.appendChild(segment);

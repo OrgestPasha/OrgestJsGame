@@ -14,6 +14,7 @@ body {
 }
 
 .game-container {
+  border-radius: 10px;
   width: 400px;
   height: 400px;
   background-color: rgb(40, 40, 40);
@@ -31,15 +32,32 @@ body {
 .ball {
   width: 25px;
   aspect-ratio: 1/1;
-  transition: transform 0.05s ease;
   background-color: rgb(22, 81, 0);
   position: absolute;
+  transition: 100ms;
+  border-radius: 2px;
+}
+
+.head {
+  background-color: rgb(15, 55, 0);
 }
 
 #food {
   width: 25px;
   aspect-ratio: 1/1;
   background-color: rgb(91, 3, 3);
+  border-radius: 50%;
+}
+
+#food::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 10px;
+  transform: translate(12px, -5px) rotate(30deg);
+  z-index: -3;
+  border-radius: 2px;
+  background-color: black;
 }
 
 .text-container {
@@ -57,8 +75,8 @@ body {
 }
 
 .instructions-container > p {
-  margin-left: 10px;
-  font-weight: 200;
+  font-weight: 300;
+  opacity: 0.7;
 }
 
 h1 {
