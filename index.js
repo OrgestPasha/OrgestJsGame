@@ -10,6 +10,7 @@ let direction = "";
 let score = 0;
 let speed = 150;
 let isGameOver = false;
+let headRotation = 0;
 
 resetGame();
 
@@ -77,15 +78,19 @@ function moveSnake() {
     switch (direction) {
       case "w":
         headY -= 25;
+        head.style.rotate = 270 + "deg";
         break;
       case "a":
         headX -= 25;
+        head.style.rotate = 180 + "deg";
         break;
       case "s":
         headY += 25;
+        head.style.rotate = 90 + "deg";
         break;
       case "d":
         headX += 25;
+        head.style.rotate = 0 + "deg";
         break;
     }
 
