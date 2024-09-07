@@ -8,7 +8,7 @@ let move = false;
 let previousDirection = "";
 let direction = "";
 let score = 0;
-let speed = 200;
+let speed = 150;
 let isGameOver = false;
 
 resetGame();

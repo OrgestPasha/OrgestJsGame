@@ -34,8 +34,8 @@ body {
   aspect-ratio: 1/1;
   background-color: rgb(22, 81, 0);
   position: absolute;
-  transition: 100ms;
-  border-radius: 2px;
+  transition: 150ms;
+  border-radius: 50%;
 }
 
 .head {
