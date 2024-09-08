@@ -17,8 +17,22 @@
       <div class="text-container">
         <h3 class="score" id="score">Score: 0</h3>
         <div class="instructions-container">
+          <p>WASD / Arrow Keys - Move</p>
           <p>R - Reset</p>
-          <img src="settings.png" alt="" />
+        </div>
+        <div class="settings-container">
+          <p>Snake Color</p>
+          <div>
+            <button onclick="colorPlus()">+</button>
+            <div id="snake-color-display"></div>
+            <button onclick="colorMinus()">-</button>
+          </div>
+          <p>Food Count</p>
+          <div>
+            <button onclick="foodCountNumPlus()">+</button>
+            <div><p id="food-count"></p></div>
+            <button onclick="foodCountNumMinus()">-</button>
+          </div>
         </div>
       </div>
 
